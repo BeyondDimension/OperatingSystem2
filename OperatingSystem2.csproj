@@ -17,6 +17,8 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>表示有关操作系统的信息，如版本和平台标识符的通用库。</Description>
     <PackageId>OperatingSystem2</PackageId>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Version>1.0.0.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition=" $(TargetFramework.StartsWith('netstandard')) OR $(TargetFramework.StartsWith('MonoAndroid')) OR $(TargetFramework.StartsWith('Xamarin')) ">

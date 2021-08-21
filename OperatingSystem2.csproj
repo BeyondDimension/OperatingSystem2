@@ -1,0 +1,34 @@
+﻿<Project Sdk="MSBuild.Sdk.Extras">
+
+  <PropertyGroup>
+    <TargetFrameworks>net5.0;net35;net40;net471;netstandard1.0;netstandard1.1;netstandard2.0;MonoAndroid10.0;Xamarin.iOS10;Xamarin.TVOS10;Xamarin.WatchOS10;Xamarin.Mac20</TargetFrameworks>
+    <AssemblyName>System.OperatingSystem2</AssemblyName>
+    <RootNamespace>System</RootNamespace>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>OperatingSystem2.snk</AssemblyOriginatorKeyFile>
+    <Authors>https://github.com/AigioL</Authors>
+    <Company>长沙次元超越科技有限公司</Company>
+    <Product>OperatingSystem2</Product>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/SteamTools-Team/OperatingSystem2</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/SteamTools-Team/OperatingSystem2.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>OperatingSystem IsAndroid IsIOS IsLinux IsMacOS IsTvOS IsWatchOS IsWindows</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>表示有关操作系统的信息，如版本和平台标识符的通用库。</Description>
+    <PackageId>OperatingSystem2</PackageId>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" $(TargetFramework.StartsWith('netstandard')) OR $(TargetFramework.StartsWith('MonoAndroid')) OR $(TargetFramework.StartsWith('Xamarin')) ">
+    <DefineConstants>__HAVE_XAMARIN_ESSENTIALS__;$(DefineConstants)</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" $(TargetFramework.StartsWith('net471')) OR $(TargetFramework.StartsWith('net472')) OR $(TargetFramework.StartsWith('net48')) OR ($(TargetFramework.StartsWith('netstandard')) AND '$(TargetFramework)' != 'netstandard1.0') OR $(TargetFramework.StartsWith('MonoAndroid')) OR $(TargetFramework.StartsWith('Xamarin'))">
+    <DefineConstants>__HAVE_RUNTIME_INFORMATION__;$(DefineConstants)</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard')) OR $(TargetFramework.StartsWith('MonoAndroid')) OR $(TargetFramework.StartsWith('Xamarin')) ">
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
+  </ItemGroup>
+
+</Project>

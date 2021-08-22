@@ -11,9 +11,11 @@ namespace System
         /// 指示当前应用程序是否正在 tvOS 上运行。
         /// </summary>
         public static bool IsTvOS =>
-#if __TVOS__
+#if __MACOS__ || NET5_0_WINDOWS || NET6_0_WINDOWS || NET7_0_WINDOWS || __ANDROID__ || __IOS__ || __WATCHOS__
+            false;
+#elif __TVOS__
             true;
-#elif NET5_0
+#elif NET5_0 || NET6_0 || NET7_0
             OperatingSystem.IsTvOS();
 #elif __HAVE_XAMARIN_ESSENTIALS__
             DeviceInfo.Platform == DevicePlatform.tvOS;
@@ -30,10 +32,16 @@ namespace System
         /// <returns></returns>
         public static bool IsTvOSVersionAtLeast(int major, int minor = 0, int build = 0)
         {
-#if NET5_0
+#if __MACOS__ || NET5_0_WINDOWS || NET6_0_WINDOWS || NET7_0_WINDOWS || __ANDROID__ || __IOS__ || __WATCHOS__
+            return false;
+#elif NET5_0 || NET6_0 || NET7_0
             return OperatingSystem.IsTvOSVersionAtLeast(major, minor, build);
 #elif __HAVE_XAMARIN_ESSENTIALS__
-            return IsTvOS && IsVersionAtLeast(DeviceInfo.Version, major, minor, build);
+            return
+#if !__TVOS__
+                IsTvOS &&
+#endif
+                IsVersionAtLeast(DeviceInfo.Version, major, minor, build);
 #else
             return false;
 #endif

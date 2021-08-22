@@ -45,26 +45,10 @@ namespace System
         /// 当前是否使用 Mono 运行时
         /// </summary>
         public static bool IsRunningOnMono { get; } =
-#if __ANDROID__ || __MACOS__ || XAMARIN_IOS || XAMARIN_WATCHOS || XAMARIN_TVOS
+#if __XAMARIN_ANDROID_v1_0__ || XAMARIN_MAC || XAMARIN_IOS || XAMARIN_WATCHOS || XAMARIN_TVOS
             true;
 #else
         Type.GetType("Mono.Runtime") != null;
-#endif
-
-#if !NETSTANDARD1_0
-        static Version OSVersion_() =>
-#if NETSTANDARD1_1
-            RtlGetVersion();
-#else
-            Environment.OSVersion.Version;
-#endif
-        static Version OSVersion =>
-#if NET35
-            OSVersion_();
-#else
-            _OSVersion.Value;
-        static readonly Lazy<Version> _OSVersion = new Lazy<Version>(OSVersion_);
-#endif
 #endif
 
         static bool IsDesktop_()
@@ -72,25 +56,23 @@ namespace System
 #if __HAVE_XAMARIN_ESSENTIALS__
             var idiom = DeviceInfo.Idiom;
             if (idiom == DeviceIdiom.Desktop) return true;
-            if (idiom == DeviceIdiom.Unknown) return IsDesktop__();
-            return false;
-#else
-            return IsDesktop__();
+            if (idiom != DeviceIdiom.Unknown) return false;
 #endif
-        }
-
-        static bool IsDesktop__()
-        {
+#if NETFRAMEWORK || NETCOREAPP || NET5_0_WINDOWS || NET5_0_WINDOWS || NET6_0_WINDOWS || NET7_0_WINDOWS || __MACOS__ || NET5_0 || NET6_0 || NET7_0
             foreach (var typeName in new[] {
                 "Avalonia.Controls.Window, Avalonia.Controls",
+#if NETFRAMEWORK || NETCOREAPP || NET5_0_WINDOWS || NET5_0_WINDOWS || NET6_0_WINDOWS || NET7_0_WINDOWS
                 "System.Windows.Forms.Form, System.Windows.Forms",
-                "System.Windows.Window, PresentationFramework"})
+                "System.Windows.Window, PresentationFramework",
+#endif
+            })
             {
                 if (Type.GetType(typeName) != null)
                 {
                     return true;
                 }
             }
+#endif
             return false;
         }
 
@@ -109,7 +91,12 @@ namespace System
         /// <summary>
         /// 指示当前应用程序是否正在仅支持应用商店的平台上运行。
         /// </summary>
-        public static bool IsOnlySupportedStore => IsIOS || IsWatchOS || IsTvOS;
+        public static bool IsOnlySupportedStore =>
+#if __MACOS__ || NET5_0_WINDOWS || NET6_0_WINDOWS || NET7_0_WINDOWS || __ANDROID__
+            false;
+#else
+            IsIOS || IsWatchOS || IsTvOS;
+#endif
 #endif
     }
 }

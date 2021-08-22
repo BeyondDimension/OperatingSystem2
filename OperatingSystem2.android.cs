@@ -16,7 +16,7 @@ namespace System
         public static bool IsAndroid =>
 #if __ANDROID__
             true;
-#elif NET5_0
+#elif NET5_0 || NET6_0 || NET7_0
             OperatingSystem.IsAndroid();
 #elif __HAVE_XAMARIN_ESSENTIALS__
             DeviceInfo.Platform == DevicePlatform.Android;
@@ -60,10 +60,14 @@ namespace System
         /// <returns></returns>
         public static bool IsAndroidVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
         {
-#if NET5_0
+#if NET5_0 || NET6_0 || NET7_0
             return OperatingSystem.IsAndroidVersionAtLeast(major, minor, build, revision);
 #elif __HAVE_XAMARIN_ESSENTIALS__
-            return IsAndroid && IsVersionAtLeast(DeviceInfo.Version, major, minor, build, revision);
+            return
+#if !__ANDROID__
+                IsAndroid &&
+#endif
+                IsVersionAtLeast(DeviceInfo.Version, major, minor, build, revision);
 #else
             return false;
 #endif

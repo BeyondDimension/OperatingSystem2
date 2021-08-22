@@ -10,14 +10,16 @@ namespace System
         /// 指示当前应用程序是否正在 Windows 上运行。
         /// </summary>
         public static bool IsWindows =>
-#if NET5_0
+#if NETSTANDARD1_0 || __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__
+            false;
+#elif NET5_0_WINDOWS || NET6_0_WINDOWS || NET7_0_WINDOWS
+            true;
+#elif NET5_0 || NET6_0 || NET7_0
             OperatingSystem.IsWindows();
 #elif __HAVE_RUNTIME_INFORMATION__
             RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
-#elif NETSTANDARD1_0
-            false;
 #else
-            Environment.OSVersion.Platform == PlatformID.Win32NT;
+        Environment.OSVersion.Platform == PlatformID.Win32NT;
 #endif
 
         /// <summary>
@@ -30,12 +32,16 @@ namespace System
         /// <returns></returns>
         public static bool IsWindowsVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
         {
-#if NET5_0
-            return OperatingSystem.IsWindowsVersionAtLeast(major, minor, build, revision);
-#elif NETSTANDARD1_0
+#if NETSTANDARD1_0 || __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__
             return false;
+#elif NET5_0 || NET6_0 || NET7_0 || NET5_0_WINDOWS || NET6_0_WINDOWS || NET7_0_WINDOWS
+            return OperatingSystem.IsWindowsVersionAtLeast(major, minor, build, revision);
 #else
-            return IsWindows && IsVersionAtLeast(OSVersion, major, minor, build, revision);
+            return
+#if !(NET5_0_WINDOWS || NET6_0_WINDOWS || NET7_0_WINDOWS)
+                IsWindows &&
+#endif
+                IsVersionAtLeast(WindowsVersion, major, minor, build, revision);
 #endif
         }
 
@@ -68,10 +74,21 @@ namespace System
                 throw new Exception("RtlGetVersion failed!");
             }
         }
+
+        static readonly Lazy<Version> _WindowsVersion = new Lazy<Version>(RtlGetVersion);
 #endif
 
 #if !NETSTANDARD1_0
-        static bool IsWindows7_() => OSVersion.Major == 6 && OSVersion.Minor == 1;
+        static Version WindowsVersion =>
+#if NETSTANDARD1_1
+            _WindowsVersion.Value;
+#else
+            Environment.OSVersion.Version;
+#endif
+#endif
+
+#if !(NETSTANDARD1_0 || __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__)
+        static bool IsWindows7_() => WindowsVersion.Major == 6 && WindowsVersion.Minor == 1;
 
         static bool IsWindows10AtLeast_() => IsWindowsVersionAtLeast(10);
 
@@ -82,10 +99,12 @@ namespace System
         /// 指示当前应用程序是否正在 Windows 7 上运行。
         /// </summary>
         public static bool IsWindows7 =>
-#if NETSTANDARD1_0
+#if NETSTANDARD1_0 || __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__
             false;
 #else
+#if !(NET5_0_WINDOWS || NET6_0_WINDOWS || NET7_0_WINDOWS)
             IsWindows &&
+#endif
 #if NET35
             IsWindows7_();
 #else
@@ -98,10 +117,9 @@ namespace System
         /// 指示当前应用程序是否正在 Windows 10 或更高版本上运行。
         /// </summary>
         public static bool IsWindows10AtLeast =>
-#if NETSTANDARD1_0
+#if NETSTANDARD1_0 || __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__
             false;
 #else
-            IsWindows &&
 #if NET35
             IsWindows10AtLeast_();
 #else
@@ -114,10 +132,9 @@ namespace System
         /// 指示当前应用程序是否正在 Windows 11 或更高版本上运行。
         /// </summary>
         public static bool IsWindows11AtLeast =>
-#if NETSTANDARD1_0
+#if NETSTANDARD1_0 || __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__
             false;
 #else
-            IsWindows &&
 #if NET35
             IsWindows11AtLeast_();
 #else

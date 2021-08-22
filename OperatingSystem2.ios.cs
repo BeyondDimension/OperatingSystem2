@@ -11,9 +11,11 @@ namespace System
         /// 指示当前应用程序是否正在 iOS 上运行。
         /// </summary>
         public static bool IsIOS =>
-#if __IOS__
+#if __MACOS__ || NET5_0_WINDOWS || NET6_0_WINDOWS || NET7_0_WINDOWS || __ANDROID__ || __TVOS__ || __WATCHOS__
+            false;
+#elif __IOS__
             true;
-#elif NET5_0
+#elif NET5_0 || NET6_0 || NET7_0
             OperatingSystem.IsIOS();
 #elif __HAVE_XAMARIN_ESSENTIALS__
             DeviceInfo.Platform == DevicePlatform.iOS;
@@ -30,10 +32,16 @@ namespace System
         /// <returns></returns>
         public static bool IsIOSVersionAtLeast(int major, int minor = 0, int build = 0)
         {
-#if NET5_0
+#if __MACOS__ || NET5_0_WINDOWS || NET6_0_WINDOWS || NET7_0_WINDOWS || __ANDROID__ || __TVOS__ || __WATCHOS__
+            return false;
+#elif NET5_0 || NET6_0 || NET7_0
             return OperatingSystem.IsIOSVersionAtLeast(major, minor, build);
 #elif __HAVE_XAMARIN_ESSENTIALS__
-            return IsIOS && IsVersionAtLeast(DeviceInfo.Version, major, minor, build);
+            return
+#if !__IOS__
+                IsIOS &&
+#endif
+                IsVersionAtLeast(DeviceInfo.Version, major, minor, build);
 #else
             return false;
 #endif

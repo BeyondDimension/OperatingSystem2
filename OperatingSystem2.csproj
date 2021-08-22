@@ -18,14 +18,14 @@
     <Description>表示有关操作系统的信息，如版本和平台标识符的通用库。</Description>
     <PackageId>OperatingSystem2</PackageId>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>1.0.0.1</Version>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition=" $(TargetFramework.StartsWith('netstandard')) OR $(TargetFramework.StartsWith('MonoAndroid')) OR $(TargetFramework.StartsWith('Xamarin')) ">
     <DefineConstants>__HAVE_XAMARIN_ESSENTIALS__;$(DefineConstants)</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" $(TargetFramework.StartsWith('net471')) OR $(TargetFramework.StartsWith('net472')) OR $(TargetFramework.StartsWith('net48')) OR ($(TargetFramework.StartsWith('netstandard')) AND '$(TargetFramework)' != 'netstandard1.0') OR $(TargetFramework.StartsWith('MonoAndroid')) OR $(TargetFramework.StartsWith('Xamarin'))">
+  <PropertyGroup Condition=" $(TargetFramework.StartsWith('net471')) OR $(TargetFramework.StartsWith('net472')) OR $(TargetFramework.StartsWith('net48')) OR $(TargetFramework.StartsWith('net5.0')) OR $(TargetFramework.StartsWith('net6.0')) OR ($(TargetFramework.StartsWith('netstandard')) AND '$(TargetFramework)' != 'netstandard1.0') OR $(TargetFramework.StartsWith('MonoAndroid')) OR $(TargetFramework.StartsWith('Xamarin'))">
     <DefineConstants>__HAVE_RUNTIME_INFORMATION__;$(DefineConstants)</DefineConstants>
   </PropertyGroup>
 

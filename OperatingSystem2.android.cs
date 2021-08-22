@@ -38,6 +38,18 @@ namespace System
 #endif
         }
 
+#if __ANDROID__
+        /// <summary>
+        /// 检查 Android 版本是否大于或等于指定版本。 此方法可用于保护在指定版本中添加的 API。
+        /// </summary>
+        /// <param name="sdkInt"></param>
+        /// <returns></returns>
+        public static bool IsAndroidVersionAtLeast(BuildVersionCodes sdkInt)
+        {
+            return Build.VERSION.SdkInt >= sdkInt;
+        }
+#endif
+
         /// <summary>
         /// 检查 Android 版本是否大于或等于指定版本。 此方法可用于保护在指定版本中添加的 API。
         /// </summary>

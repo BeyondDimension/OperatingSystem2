@@ -4,6 +4,9 @@ using Xamarin.Essentials;
 
 namespace System
 {
+    /// <summary>
+    /// 表示有关操作系统的信息，如版本和平台标识符。
+    /// </summary>
     public static partial class OperatingSystem2
     {
 #if __HAVE_XAMARIN_ESSENTIALS__ || (!NET5_0 && !NET6_0 && !NET7_0)

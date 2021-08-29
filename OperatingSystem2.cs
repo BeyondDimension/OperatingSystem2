@@ -1,4 +1,4 @@
-﻿#if __HAVE_XAMARIN_ESSENTIALS__
+#if __HAVE_XAMARIN_ESSENTIALS__
 using Xamarin.Essentials;
 #endif
 
@@ -42,7 +42,7 @@ namespace System
 #endif
 
         /// <summary>
-        /// 当前是否使用 Mono 运行时
+        /// 当前是否使用 Mono 运行时。
         /// </summary>
         public static bool IsRunningOnMono { get; } =
 #if __XAMARIN_ANDROID_v1_0__ || XAMARIN_MAC || XAMARIN_IOS || XAMARIN_WATCHOS || XAMARIN_TVOS

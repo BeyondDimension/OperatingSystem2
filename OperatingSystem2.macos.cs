@@ -1,4 +1,4 @@
-﻿#if __HAVE_RUNTIME_INFORMATION__
+#if __HAVE_RUNTIME_INFORMATION__
 using System.Runtime.InteropServices;
 #endif
 #if __HAVE_XAMARIN_ESSENTIALS__
@@ -28,7 +28,7 @@ namespace System
 #endif
 
         /// <summary>
-        /// 检查 macOS 版本是否大于或等于指定版本。 此方法可用于保护在指定 macOS 版本中添加的 API。
+        /// 检查 macOS 版本是否大于或等于指定版本。
         /// </summary>
         /// <param name="major"></param>
         /// <param name="minor"></param>

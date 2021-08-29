@@ -1,5 +1,7 @@
-﻿#if __HAVE_RUNTIME_INFORMATION__
 using System.Runtime.InteropServices;
+using System.Text;
+#if __HAVE_XAMARIN_ESSENTIALS__
+using Xamarin.Essentials;
 #endif
 
 namespace System
@@ -23,7 +25,7 @@ namespace System
 #endif
 
         /// <summary>
-        /// 检查 Windows 版本是否大于或等于指定版本。 此方法可用于保护在指定 Windows 版本中添加的 API。
+        /// 检查 Windows 版本是否大于或等于指定版本。
         /// </summary>
         /// <param name="major"></param>
         /// <param name="minor"></param>
@@ -75,7 +77,7 @@ namespace System
             }
         }
 
-        static readonly Lazy<Version> _WindowsVersion = new Lazy<Version>(RtlGetVersion);
+        static readonly Lazy<Version> _WindowsVersion = new(RtlGetVersion);
 #endif
 
 #if !NETSTANDARD1_0
@@ -109,7 +111,7 @@ namespace System
             IsWindows7_();
 #else
             _IsWindows7.Value;
-        static readonly Lazy<bool> _IsWindows7 = new Lazy<bool>(IsWindows7_);
+        static readonly Lazy<bool> _IsWindows7 = new(IsWindows7_);
 #endif
 #endif
 
@@ -124,7 +126,7 @@ namespace System
             IsWindows10AtLeast_();
 #else
             _IsWindows10AtLeast.Value;
-        static readonly Lazy<bool> _IsWindows10AtLeast = new Lazy<bool>(IsWindows10AtLeast_);
+        static readonly Lazy<bool> _IsWindows10AtLeast = new(IsWindows10AtLeast_);
 #endif
 #endif
 
@@ -139,7 +141,65 @@ namespace System
             IsWindows11AtLeast_();
 #else
             _IsWindows11AtLeast.Value;
-        static readonly Lazy<bool> _IsWindows11AtLeast = new Lazy<bool>(IsWindows11AtLeast_);
+        static readonly Lazy<bool> _IsWindows11AtLeast = new(IsWindows11AtLeast_);
+#endif
+#endif
+
+#if __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__
+#else
+#if !NETSTANDARD1_0
+        // https://github.com/qmatteoq/DesktopBridgeHelpers/blob/master/DesktopBridge.Helpers/Helpers.cs
+
+        const long APPMODEL_ERROR_NO_PACKAGE = 15700L;
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)]
+        static extern int GetCurrentPackageFullName(ref int packageFullNameLength, StringBuilder packageFullName);
+#endif
+        static bool IsRunningAsUwp_()
+        {
+#if __HAVE_XAMARIN_ESSENTIALS__
+            if (DeviceInfo.Platform == DevicePlatform.UWP)
+            {
+                return true;
+            }
+#endif
+#if !NETSTANDARD1_0
+            int versionMajor = WindowsVersion.Major;
+            int versionMinor = WindowsVersion.Minor;
+            double version = versionMajor + (double)versionMinor / 10;
+            if (version <= 6.1)
+            {
+                return false;
+            }
+            else
+            {
+                int length = 0;
+                StringBuilder sb = new StringBuilder(0);
+                int result = GetCurrentPackageFullName(ref length, sb);
+
+                sb = new StringBuilder(length);
+                result = GetCurrentPackageFullName(ref length, sb);
+
+                return result != APPMODEL_ERROR_NO_PACKAGE;
+            }
+#else
+            return false;
+#endif
+        }
+#endif
+
+        /// <summary>
+        /// 指示当前应用程序是否正在 UWP 上运行。
+        /// </summary>
+        public static bool IsRunningAsUwp =>
+#if __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__
+            false;
+#else
+#if NET35
+            IsRunningAsUwp_();
+#else
+            _IsRunningAsUwp.Value;
+        static readonly Lazy<bool> _IsRunningAsUwp = new(IsRunningAsUwp_);
 #endif
 #endif
     }

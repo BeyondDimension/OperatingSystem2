@@ -1,4 +1,4 @@
-﻿#if !NETFRAMEWORK
+#if !NETFRAMEWORK
 #if __ANDROID__
 using Android.OS;
 #endif
@@ -25,7 +25,7 @@ namespace System
 #endif
 
         /// <summary>
-        /// 检查 Android 版本是否大于或等于指定版本。 此方法可用于保护在指定版本中添加的 API。
+        /// 检查 Android 版本是否大于或等于指定版本。
         /// </summary>
         /// <param name="sdkInt"></param>
         /// <returns></returns>
@@ -40,7 +40,7 @@ namespace System
 
 #if __ANDROID__
         /// <summary>
-        /// 检查 Android 版本是否大于或等于指定版本。 此方法可用于保护在指定版本中添加的 API。
+        /// 检查 Android 版本是否大于或等于指定版本。
         /// </summary>
         /// <param name="sdkInt"></param>
         /// <returns></returns>
@@ -51,7 +51,7 @@ namespace System
 #endif
 
         /// <summary>
-        /// 检查 Android 版本是否大于或等于指定版本。 此方法可用于保护在指定版本中添加的 API。
+        /// 检查 Android 版本是否大于或等于指定版本。
         /// </summary>
         /// <param name="major"></param>
         /// <param name="minor"></param>

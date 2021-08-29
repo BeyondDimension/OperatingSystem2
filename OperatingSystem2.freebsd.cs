@@ -1,4 +1,4 @@
-﻿#if NETCOREAPP3_0 || NETCOREAPP3_1
+#if NETCOREAPP3_0 || NETCOREAPP3_1
 using System.Runtime.InteropServices;
 #endif
 
@@ -19,7 +19,7 @@ namespace System
 #endif
 
         /// <summary>
-        /// 检查 FreeBSD 版本（由 Linux 命令 uname返回）是否大于或等于指定版本。 此方法可用于保护在指定版本中添加的 API。
+        /// 检查 FreeBSD 版本是否大于或等于指定版本。
         /// </summary>
         /// <param name="major"></param>
         /// <param name="minor"></param>

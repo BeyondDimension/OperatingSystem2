@@ -4,6 +4,7 @@
 OperatingSystem2.IsRunningOnMono // 当前是否使用 Mono 运行时
 OperatingSystem2.IsDesktop // 指示当前应用程序是否正在 Desktop 上运行。
 OperatingSystem2.IsOnlySupportedStore // 指示当前应用程序是否正在仅支持应用商店的平台上运行。
+OperatingSystem2.IsRunningAsUwp // 指示当前应用程序是否正在 UWP 上运行。
 
 OperatingSystem2.IsWindows // 指示当前应用程序是否正在 Windows 上运行。
 OperatingSystem2.IsWindows7 // 指示当前应用程序是否正在 Windows 7 上运行。
@@ -19,26 +20,26 @@ OperatingSystem2.IsWatchOS // 指示当前应用程序是否正在 watchOS 上�
 OperatingSystem2.IsBrowser // 指示当前应用程序是否在浏览器中作为 WASM 运行。
 
 
-// 检查 Windows 版本是否大于或等于指定版本。 此方法可用于保护在指定 Windows 版本中添加的 API。
+// 检查 Windows 版本是否大于或等于指定版本。
 OperatingSystem2.IsWindowsVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0) 
 
-// 检查 macOS 版本是否大于或等于指定版本。 此方法可用于保护在指定 macOS 版本中添加的 API。
+// 检查 macOS 版本是否大于或等于指定版本。
 OperatingSystem2.IsMacOSVersionAtLeast(int major, int minor = 0, int build = 0)
 
-// 检查 FreeBSD 版本（由 Linux 命令 uname返回）是否大于或等于指定版本。 此方法可用于保护在指定版本中添加的 API。
+// 检查 FreeBSD 版本是否大于或等于指定版本。
 OperatingSystem2.IsFreeBSDVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
 
-// 检查 Android 版本是否大于或等于指定版本。 此方法可用于保护在指定版本中添加的 API。
+// 检查 Android 版本是否大于或等于指定版本。
 OperatingSystem2.IsAndroidVersionAtLeast(int sdkInt)
 OperatingSystem2.IsAndroidVersionAtLeast(BuildVersionCodes sdkInt)
 OperatingSystem2.IsAndroidVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
 
-// 检查 iOS 版本是否大于或等于指定版本。 此方法可用于保护在指定 iOS 版本中添加的 API。
+// 检查 iOS 版本是否大于或等于指定版本。
 OperatingSystem2.IsIOSVersionAtLeast(int major, int minor = 0, int build = 0)
 
-// 检查 tvOS 版本是否大于或等于指定版本。 此方法可用于保护在指定 tvOS 版本中添加的 API。
+// 检查 tvOS 版本是否大于或等于指定版本。
 OperatingSystem2.IsTvOSVersionAtLeast(int major, int minor = 0, int build = 0)
 
-// 检查 watchOS 版本是否大于或等于指定版本。 此方法可用于保护在指定 watchOS 版本中添加的 API。
+// 检查 watchOS 版本是否大于或等于指定版本。
 OperatingSystem2.IsWatchOSVersionAtLeast(int major, int minor = 0, int build = 0)
 ```

@@ -84,7 +84,7 @@ namespace System
             IsDesktop_();
 #else
             _IsDesktop.Value;
-        static readonly Lazy<bool> _IsDesktop = new Lazy<bool>(IsDesktop_);
+        static readonly Lazy<bool> _IsDesktop = new(IsDesktop_);
 #endif
 
 #if !NETFRAMEWORK

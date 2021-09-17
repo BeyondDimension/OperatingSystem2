@@ -13,9 +13,9 @@ namespace System
         public static bool IsIOS =>
 #if __MACOS__ || NET5_0_WINDOWS || NET6_0_WINDOWS || NET7_0_WINDOWS || __ANDROID__ || __TVOS__ || __WATCHOS__
             false;
-#elif __IOS__
+#elif __IOS__ && !NET6_0_MACCATALYST
             true;
-#elif NET5_0 || NET6_0 || NET7_0
+#elif NET5_0 || NET6_0 || NET7_0 || NET6_0_MACCATALYST
             OperatingSystem.IsIOS();
 #elif __HAVE_XAMARIN_ESSENTIALS__
             DeviceInfo.Platform == DevicePlatform.iOS;

@@ -1,7 +1,8 @@
 <Project Sdk="MSBuild.Sdk.Extras">
 
   <PropertyGroup>
-    <TargetFrameworks>net5.0;net5.0-windows;net6.0-macos10.14;netcoreapp3.0;net35;net40;net471;netstandard1.0;netstandard1.1;netstandard2.0;MonoAndroid10.0;Xamarin.iOS10;Xamarin.TVOS10;Xamarin.WatchOS10;Xamarin.Mac20</TargetFrameworks>
+    <TargetFrameworks>net6.0;net6.0-windows;net6.0-macos10.14;net6.0-android;net6.0-ios;net6.0-maccatalyst;net5.0;net5.0-windows;netcoreapp3.0;netcoreapp3.1;netstandard1.0;netstandard1.1;netstandard2.0;MonoAndroid10.0;Xamarin.iOS10;Xamarin.TVOS10;Xamarin.WatchOS10;Xamarin.Mac20</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net35;net40;net471;uap10.0.16299;</TargetFrameworks>
     <AssemblyName>System.OperatingSystem2</AssemblyName>
     <RootNamespace>System</RootNamespace>
     <LangVersion>9.0</LangVersion>
@@ -20,7 +21,7 @@
     <Description>表示有关操作系统的信息，如版本和平台标识符的通用库。</Description>
     <PackageId>OperatingSystem2</PackageId>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>1.2.0</Version>
+    <Version>1.3.0</Version>
     <AndroidUseIntermediateDesignerFile>false</AndroidUseIntermediateDesignerFile>
     <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
   </PropertyGroup>

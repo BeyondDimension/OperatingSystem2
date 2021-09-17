@@ -1,6 +1,9 @@
 #if __HAVE_XAMARIN_ESSENTIALS__
 using Xamarin.Essentials;
 #endif
+#if WINDOWS_UWP
+using Windows.System.Profile;
+#endif
 
 namespace System
 {
@@ -53,6 +56,9 @@ namespace System
 
         static bool IsDesktop_()
         {
+#if WINDOWS_UWP
+            return AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Desktop";
+#else
 #if __HAVE_XAMARIN_ESSENTIALS__
             var idiom = DeviceInfo.Idiom;
             if (idiom == DeviceIdiom.Desktop) return true;
@@ -74,18 +80,15 @@ namespace System
             }
 #endif
             return false;
+#endif
         }
 
         /// <summary>
         /// 指示当前应用程序是否正在 Desktop 上运行。
         /// </summary>
         public static bool IsDesktop =>
-#if NET35
-            IsDesktop_();
-#else
             _IsDesktop.Value;
         static readonly Lazy<bool> _IsDesktop = new(IsDesktop_);
-#endif
 
 #if !NETFRAMEWORK
         /// <summary>
@@ -97,6 +100,20 @@ namespace System
 #else
             IsIOS || IsWatchOS || IsTvOS;
 #endif
+#endif
+
+        /// <summary>
+        /// 获取当前系统版本号。
+        /// </summary>
+        public static Version Version =>
+#if NETSTANDARD1_0
+            throw new PlatformNotSupportedException();
+#elif NETSTANDARD1_1 || WINDOWS_UWP
+            _WindowsVersion.Value;
+#elif __HAVE_XAMARIN_ESSENTIALS__
+            DeviceInfo.Version;
+#else
+            Environment.OSVersion.Version;
 #endif
     }
 }

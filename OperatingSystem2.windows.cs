@@ -3,6 +3,9 @@ using System.Text;
 #if __HAVE_XAMARIN_ESSENTIALS__
 using Xamarin.Essentials;
 #endif
+#if WINDOWS_UWP
+using Windows.System.Profile;
+#endif
 
 namespace System
 {
@@ -14,7 +17,7 @@ namespace System
         public static bool IsWindows =>
 #if NETSTANDARD1_0 || __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__
             false;
-#elif NET5_0_WINDOWS || NET6_0_WINDOWS || NET7_0_WINDOWS
+#elif NET5_0_WINDOWS || NET6_0_WINDOWS || NET7_0_WINDOWS || WINDOWS_UWP
             true;
 #elif NET5_0 || NET6_0 || NET7_0
             OperatingSystem.IsWindows();
@@ -43,7 +46,7 @@ namespace System
 #if !(NET5_0_WINDOWS || NET6_0_WINDOWS || NET7_0_WINDOWS)
                 IsWindows &&
 #endif
-                IsVersionAtLeast(WindowsVersion, major, minor, build, revision);
+                IsVersionAtLeast(Version, major, minor, build, revision);
 #endif
         }
 
@@ -78,19 +81,25 @@ namespace System
         }
 
         static readonly Lazy<Version> _WindowsVersion = new(RtlGetVersion);
-#endif
-
-#if !NETSTANDARD1_0
-        static Version WindowsVersion =>
-#if NETSTANDARD1_1
-            _WindowsVersion.Value;
-#else
-            Environment.OSVersion.Version;
-#endif
+#elif WINDOWS_UWP
+        static readonly Lazy<Version> _WindowsVersion = new(WindowsVersion_);
+        static Version WindowsVersion_()
+        {
+            var sv = AnalyticsInfo.VersionInfo.DeviceFamilyVersion;
+            var v = ulong.Parse(sv);
+            var major = (v & 0xFFFF000000000000L) >> 48;
+            var minor = (v & 0x0000FFFF00000000L) >> 32;
+            var build = (v & 0x00000000FFFF0000L) >> 16;
+            var revision = v & 0x000000000000FFFFL;
+            return new Version(
+                Convert.ToInt32(major),
+                Convert.ToInt32(minor),
+                Convert.ToInt32(build),
+                Convert.ToInt32(revision));
+        }
 #endif
 
 #if !(NETSTANDARD1_0 || __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__)
-        static bool IsWindows7_() => WindowsVersion.Major == 6 && WindowsVersion.Minor == 1;
 
         static bool IsWindows10AtLeast_() => IsWindowsVersionAtLeast(10);
 
@@ -98,21 +107,34 @@ namespace System
 #endif
 
         /// <summary>
-        /// 指示当前应用程序是否正在 Windows 7 上运行。
+        /// 指示当前应用程序是否正在 Windows 7(NT 6.1) 上运行。
         /// </summary>
         public static bool IsWindows7 =>
-#if NETSTANDARD1_0 || __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__
+#if NETSTANDARD1_0 || __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__ || WINDOWS_UWP
             false;
 #else
 #if !(NET5_0_WINDOWS || NET6_0_WINDOWS || NET7_0_WINDOWS)
             IsWindows &&
 #endif
-#if NET35
-            IsWindows7_();
-#else
             _IsWindows7.Value;
         static readonly Lazy<bool> _IsWindows7 = new(IsWindows7_);
+        static bool IsWindows7_() => Version.Major == 6 && Version.Minor == 1;
 #endif
+
+        /// <summary>
+        /// 指示当前应用程序是否正在 Windows Server 上运行。
+        /// </summary>
+        public static bool IsWindowsServer =>
+#if NETSTANDARD1_0 || __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__
+            false;
+#else
+            _IsWindowsServer.Value;
+        static readonly Lazy<bool> _IsWindowsServer = new(IsWindowsServer_);
+        const int OS_ANYSERVER = 29;
+
+        [DllImport("shlwapi.dll", SetLastError = true, EntryPoint = "#437")]
+        static extern bool IsOS(int os);
+        static bool IsWindowsServer_() => IsOS(OS_ANYSERVER);
 #endif
 
         /// <summary>
@@ -122,12 +144,8 @@ namespace System
 #if NETSTANDARD1_0 || __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__
             false;
 #else
-#if NET35
-            IsWindows10AtLeast_();
-#else
             _IsWindows10AtLeast.Value;
         static readonly Lazy<bool> _IsWindows10AtLeast = new(IsWindows10AtLeast_);
-#endif
 #endif
 
         /// <summary>
@@ -137,15 +155,11 @@ namespace System
 #if NETSTANDARD1_0 || __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__
             false;
 #else
-#if NET35
-            IsWindows11AtLeast_();
-#else
             _IsWindows11AtLeast.Value;
         static readonly Lazy<bool> _IsWindows11AtLeast = new(IsWindows11AtLeast_);
 #endif
-#endif
 
-#if __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__
+#if __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__ || WINDOWS_UWP
 #else
 #if !NETSTANDARD1_0
         // https://github.com/qmatteoq/DesktopBridgeHelpers/blob/master/DesktopBridge.Helpers/Helpers.cs
@@ -164,8 +178,8 @@ namespace System
             }
 #endif
 #if !NETSTANDARD1_0
-            int versionMajor = WindowsVersion.Major;
-            int versionMinor = WindowsVersion.Minor;
+            int versionMajor = Version.Major;
+            int versionMinor = Version.Minor;
             double version = versionMajor + (double)versionMinor / 10;
             if (version <= 6.1)
             {
@@ -192,15 +206,30 @@ namespace System
         /// 指示当前应用程序是否正在 UWP 上运行。
         /// </summary>
         public static bool IsRunningAsUwp =>
-#if __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__
+#if WINDOWS_UWP
+            true;
+#elif __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__
             false;
-#else
-#if NET35
-            IsRunningAsUwp_();
 #else
             _IsRunningAsUwp.Value;
         static readonly Lazy<bool> _IsRunningAsUwp = new(IsRunningAsUwp_);
 #endif
+
+#if WINDOWS_UWP
+        static readonly Lazy<bool> _IsRunningOnXbox = new(IsRunningOnXbox_);
+        static bool IsRunningOnXbox_() => AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Xbox";
+#endif
+
+        /// <summary>
+        /// 指示当前应用程序是否正在 Xbox 上运行。
+        /// </summary>
+        public static bool IsRunningOnXbox =>
+#if NETSTANDARD1_0 || NETSTANDARD1_1 || __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__
+            false;
+#elif WINDOWS_UWP
+        _IsRunningOnXbox.Value;
+#else
+        Environment.OSVersion.Platform == PlatformID.Xbox;
 #endif
     }
 }

@@ -1,3 +1,4 @@
+using System.Reflection;
 #if __HAVE_XAMARIN_ESSENTIALS__
 using Xamarin.Essentials;
 #endif
@@ -54,6 +55,9 @@ namespace System
         Type.GetType("Mono.Runtime") != null;
 #endif
 
+#if !WINDOWS_UWP && !(NETSTANDARD1_0 || NETSTANDARD1_1 || NET35 || NET40)
+        static byte isAvaloniaDesktop;
+#endif
         static bool IsDesktop_()
         {
 #if WINDOWS_UWP
@@ -64,19 +68,36 @@ namespace System
             if (idiom == DeviceIdiom.Desktop) return true;
             if (idiom != DeviceIdiom.Unknown) return false;
 #endif
-#if NETFRAMEWORK || NETCOREAPP || NET5_0_WINDOWS || NET5_0_WINDOWS || NET6_0_WINDOWS || NET7_0_WINDOWS || __MACOS__ || NET5_0 || NET6_0 || NET7_0
-            foreach (var typeName in new[] {
-                "Avalonia.Controls.Window, Avalonia.Controls",
-#if NETFRAMEWORK || NETCOREAPP || NET5_0_WINDOWS || NET5_0_WINDOWS || NET6_0_WINDOWS || NET7_0_WINDOWS
-                "System.Windows.Forms.Form, System.Windows.Forms",
-                "System.Windows.Window, PresentationFramework",
-#endif
-            })
+            if (Application.UseWindowsForms || Application.UseWPF)
             {
-                if (Type.GetType(typeName) != null)
+                return true;
+            }
+#if !(NETSTANDARD1_0 || NETSTANDARD1_1 || NET35 || NET40)
+            else if (Application.UseAvalonia)
+            {
+                if (isAvaloniaDesktop == 0)
                 {
-                    return true;
+                    try
+                    {
+                        var currentAvaloniaApplication = Application.Types.Avalonia!.GetProperty("Current", BindingFlags.Static | BindingFlags.Public)?.GetValue(null);
+                        if (currentAvaloniaApplication != null)
+                        {
+                            var applicationLifetime = Application.Types.Avalonia.GetProperty("ApplicationLifetime", BindingFlags.Instance | BindingFlags.Public)?.GetValue(currentAvaloniaApplication);
+                            if (applicationLifetime != null)
+                            {
+                                if (applicationLifetime.GetType().ToString().Contains("Desktop"))
+                                {
+                                    isAvaloniaDesktop = 1;
+                                }
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        isAvaloniaDesktop = 2;
+                    }
                 }
+                return isAvaloniaDesktop == 1;
             }
 #endif
             return false;
@@ -90,16 +111,14 @@ namespace System
             _IsDesktop.Value;
         static readonly Lazy<bool> _IsDesktop = new(IsDesktop_);
 
-#if !NETFRAMEWORK
         /// <summary>
         /// 指示当前应用程序是否正在仅支持应用商店的平台上运行。
         /// </summary>
         public static bool IsOnlySupportedStore =>
-#if __MACOS__ || NET5_0_WINDOWS || NET6_0_WINDOWS || NET7_0_WINDOWS || __ANDROID__
+#if NETFRAMEWORK || __MACOS__ || NET5_0_WINDOWS || NET6_0_WINDOWS || NET7_0_WINDOWS || __ANDROID__
             false;
 #else
             IsIOS || IsWatchOS || IsTvOS;
-#endif
 #endif
 
         /// <summary>

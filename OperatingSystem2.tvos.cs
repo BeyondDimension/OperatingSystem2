@@ -1,4 +1,3 @@
-#if !NETFRAMEWORK
 #if __HAVE_XAMARIN_ESSENTIALS__
 using Xamarin.Essentials;
 #endif
@@ -48,4 +47,3 @@ namespace System
         }
     }
 }
-#endif

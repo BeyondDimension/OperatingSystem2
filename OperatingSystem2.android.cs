@@ -1,4 +1,3 @@
-#if !NETFRAMEWORK
 #if __ANDROID__
 using Android.OS;
 #endif
@@ -74,4 +73,3 @@ namespace System
         }
     }
 }
-#endif

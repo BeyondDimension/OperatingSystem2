@@ -47,6 +47,8 @@ OperatingSystem2.IsTvOSVersionAtLeast(int major, int minor = 0, int build = 0)
 // 检查 watchOS 版本是否大于或等于指定版本。
 OperatingSystem2.IsWatchOSVersionAtLeast(int major, int minor = 0, int build = 0)
 
+// ----------------------------------------
+
 using System.Runtime.InteropServices;
 
 // 正在其上运行当前应用的平台体系结构为 X86 或 X64
@@ -58,4 +60,13 @@ bool RuntimeInformation.ProcessArchitecture.IsX86OrX64()
 bool IsArmOrArm64();
 bool IsWasm();
 bool IsS390x();
+
+// ----------------------------------------
+
+bool OperatingSystem2.Application.UseAvalonia
+bool OperatingSystem2.Application.UseXamarinForms
+bool OperatingSystem2.Application.UseMaui
+bool OperatingSystem2.Application.UseWindowsForms
+bool OperatingSystem2.Application.UseWPF
+bool OperatingSystem2.Application.UseUno
 ```

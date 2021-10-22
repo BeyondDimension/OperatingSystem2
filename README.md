@@ -8,6 +8,7 @@ OperatingSystem2.IsDesktop // 指示当前应用程序是否正在 Desktop 上�
 OperatingSystem2.IsOnlySupportedStore // 指示当前应用程序是否正在仅支持应用商店的平台上运行。
 OperatingSystem2.IsRunningAsUwp // 指示当前应用程序是否正在 UWP 上运行。
 OperatingSystem2.IsRunningOnXbox // 指示当前应用程序是否正在 Xbox 上运行。
+OperatingSystem2.IsRunningOnWSA // 指示当前应用程序是否正在 Windows Subsystem for Android™️ 上运行。
 
 OperatingSystem2.IsWindows // 指示当前应用程序是否正在 Windows 上运行。
 OperatingSystem2.IsWindowsServer // 指示当前应用程序是否正在 Windows Server 上运行。

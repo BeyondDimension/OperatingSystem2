@@ -1,5 +1,6 @@
 #if __ANDROID__
 using Android.OS;
+using Java.Lang;
 #endif
 #if __HAVE_XAMARIN_ESSENTIALS__
 using Xamarin.Essentials;
@@ -19,6 +20,33 @@ namespace System
             OperatingSystem.IsAndroid();
 #elif __HAVE_XAMARIN_ESSENTIALS__
             DeviceInfo.Platform == DevicePlatform.Android;
+#else
+            false;
+#endif
+
+#if __ANDROID__
+        static readonly Lazy<bool> _IsRunningOnWSA = new(() =>
+        {
+            string? model = Build.Model, manufacturer = Build.Manufacturer,
+                brand = Build.Brand, device = Build.Device,
+                product = Build.Product, hardware = Build.Hardware;
+            if (model != "Subsystem for Android(TM)") return false;
+            if (manufacturer != "Microsoft Corporation") return false;
+            if (brand != "Windows") return false;
+            if (device == null || !device.Contains("windows")) return false;
+            if (product == null || !product.Contains("windows") != true) return false;
+            if (hardware == null || !hardware.Contains("windows") != true) return false;
+            var osVer = JavaSystem.GetProperty("os.version");
+            if (osVer == null || !osVer.Contains("windows-subsystem-for-android")) return false;
+            return true;
+        });
+#endif
+        /// <summary>
+        /// 指示当前应用程序是否正在 Windows Subsystem for Android™️ 上运行。
+        /// </summary>
+        public static bool IsRunningOnWSA =>
+#if __ANDROID__
+            _IsRunningOnWSA.Value;
 #else
             false;
 #endif

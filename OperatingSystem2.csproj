@@ -21,7 +21,7 @@
     <Description>表示有关操作系统的信息，如版本和平台标识符的通用库。</Description>
     <PackageId>OperatingSystem2</PackageId>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>1.4.0</Version>
+    <Version>1.4.1</Version>
     <AndroidUseIntermediateDesignerFile>false</AndroidUseIntermediateDesignerFile>
     <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
   </PropertyGroup>

@@ -34,8 +34,8 @@ namespace System
             if (manufacturer != "Microsoft Corporation") return false;
             if (brand != "Windows") return false;
             if (device == null || !device.Contains("windows")) return false;
-            if (product == null || !product.Contains("windows") != true) return false;
-            if (hardware == null || !hardware.Contains("windows") != true) return false;
+            if (product == null || !product.Contains("windows")) return false;
+            if (hardware == null || !hardware.Contains("windows")) return false;
             var osVer = JavaSystem.GetProperty("os.version");
             if (osVer == null || !osVer.Contains("windows-subsystem-for-android")) return false;
             return true;

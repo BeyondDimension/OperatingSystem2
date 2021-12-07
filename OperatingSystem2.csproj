@@ -13,8 +13,8 @@
     <Company>长沙次元超越科技有限公司</Company>
     <Product>OperatingSystem2</Product>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/SteamTools-Team/OperatingSystem2</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/SteamTools-Team/OperatingSystem2.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/BeyondDimension/OperatingSystem2</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/BeyondDimension/OperatingSystem2.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>OperatingSystem IsAndroid IsIOS IsLinux IsMacOS IsTvOS IsWatchOS IsWindows</PackageTags>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>

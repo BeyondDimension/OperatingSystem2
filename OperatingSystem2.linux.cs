@@ -1,6 +1,7 @@
 #if __HAVE_RUNTIME_INFORMATION__
 using System.Runtime.InteropServices;
 #endif
+using System.Runtime.Versioning;
 
 namespace System
 {
@@ -9,6 +10,7 @@ namespace System
         /// <summary>
         /// 指示当前应用程序是否正在 Linux 上运行。
         /// </summary>
+        [SupportedOSPlatformGuard("linux")]
         public static bool IsLinux =>
 #if NETSTANDARD1_0 || NET5_0_WINDOWS || NET6_0_WINDOWS || NET7_0_WINDOWS || __MACOS__ || __IOS__ || __WATCHOS__ || __TVOS__ || WINDOWS_UWP
             false;

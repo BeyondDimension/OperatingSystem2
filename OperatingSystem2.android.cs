@@ -5,6 +5,7 @@ using Java.Lang;
 #if __HAVE_XAMARIN_ESSENTIALS__
 using Xamarin.Essentials;
 #endif
+using System.Runtime.Versioning;
 
 namespace System
 {
@@ -13,6 +14,7 @@ namespace System
         /// <summary>
         /// 指示当前应用程序是否正在 Android 上运行。
         /// </summary>
+        [SupportedOSPlatformGuard("android")]
         public static bool IsAndroid =>
 #if __ANDROID__
             true;
@@ -44,6 +46,7 @@ namespace System
         /// <summary>
         /// 指示当前应用程序是否正在 Windows Subsystem for Android™️ 上运行。
         /// </summary>
+        [SupportedOSPlatformGuard("android")]
         public static bool IsRunningOnWSA =>
 #if __ANDROID__
             _IsRunningOnWSA.Value;
@@ -56,6 +59,7 @@ namespace System
         /// </summary>
         /// <param name="sdkInt"></param>
         /// <returns></returns>
+        [SupportedOSPlatformGuard("android")]
         public static bool IsAndroidVersionAtLeast(int sdkInt)
         {
 #if __ANDROID__
@@ -71,6 +75,7 @@ namespace System
         /// </summary>
         /// <param name="sdkInt"></param>
         /// <returns></returns>
+        [SupportedOSPlatformGuard("android")]
         public static bool IsAndroidVersionAtLeast(BuildVersionCodes sdkInt)
         {
             return Build.VERSION.SdkInt >= sdkInt;
@@ -85,6 +90,7 @@ namespace System
         /// <param name="build"></param>
         /// <param name="revision"></param>
         /// <returns></returns>
+        [SupportedOSPlatformGuard("android")]
         public static bool IsAndroidVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
         {
 #if NET5_0 || NET6_0 || NET7_0

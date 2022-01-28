@@ -1,6 +1,7 @@
 #if NETCOREAPP3_0 || NETCOREAPP3_1
 using System.Runtime.InteropServices;
 #endif
+using System.Runtime.Versioning;
 
 namespace System
 {
@@ -9,6 +10,7 @@ namespace System
         /// <summary>
         /// 指示当前应用程序是否正在 FreeBSD 上运行。
         /// </summary>
+        [SupportedOSPlatformGuard("freebsd")]
         public static bool IsFreeBSD =>
 #if NET5_0 || NET6_0 || NET7_0
             OperatingSystem.IsFreeBSD();
@@ -26,6 +28,7 @@ namespace System
         /// <param name="build"></param>
         /// <param name="revision"></param>
         /// <returns></returns>
+        [SupportedOSPlatformGuard("freebsd")]
         public static bool IsFreeBSDVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
         {
 #if NET5_0 || NET6_0 || NET7_0

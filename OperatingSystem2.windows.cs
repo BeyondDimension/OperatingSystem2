@@ -1,4 +1,5 @@
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using System.Text;
 #if __HAVE_XAMARIN_ESSENTIALS__
 using Xamarin.Essentials;
@@ -14,6 +15,7 @@ namespace System
         /// <summary>
         /// 指示当前应用程序是否正在 Windows 上运行。
         /// </summary>
+        [SupportedOSPlatformGuard("windows")]
         public static bool IsWindows =>
 #if NETSTANDARD1_0 || __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__
             false;
@@ -35,6 +37,7 @@ namespace System
         /// <param name="build"></param>
         /// <param name="revision"></param>
         /// <returns></returns>
+        [SupportedOSPlatformGuard("windows")]
         public static bool IsWindowsVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
         {
 #if NETSTANDARD1_0 || __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__
@@ -109,6 +112,7 @@ namespace System
         /// <summary>
         /// 指示当前应用程序是否正在 Windows 7(NT 6.1) 上运行。
         /// </summary>
+        [SupportedOSPlatformGuard("windows7.0")]
         public static bool IsWindows7 =>
 #if NETSTANDARD1_0 || __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__ || WINDOWS_UWP
             false;
@@ -124,6 +128,7 @@ namespace System
         /// <summary>
         /// 指示当前应用程序是否正在 Windows Server 上运行。
         /// </summary>
+        [SupportedOSPlatformGuard("windows")]
         public static bool IsWindowsServer =>
 #if NETSTANDARD1_0 || __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__
             false;
@@ -140,6 +145,7 @@ namespace System
         /// <summary>
         /// 指示当前应用程序是否正在 Windows 10 或更高版本上运行。
         /// </summary>
+        [SupportedOSPlatformGuard("windows10.0")]
         public static bool IsWindows10AtLeast =>
 #if NETSTANDARD1_0 || __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__
             false;
@@ -151,6 +157,7 @@ namespace System
         /// <summary>
         /// 指示当前应用程序是否正在 Windows 11 或更高版本上运行。
         /// </summary>
+        [SupportedOSPlatformGuard("windows10.0.22000")]
         public static bool IsWindows11AtLeast =>
 #if NETSTANDARD1_0 || __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__
             false;
@@ -205,6 +212,7 @@ namespace System
         /// <summary>
         /// 指示当前应用程序是否正在 UWP 上运行。
         /// </summary>
+        [SupportedOSPlatformGuard("windows")]
         public static bool IsRunningAsUwp =>
 #if WINDOWS_UWP
             true;
@@ -223,6 +231,7 @@ namespace System
         /// <summary>
         /// 指示当前应用程序是否正在 Xbox 上运行。
         /// </summary>
+        [SupportedOSPlatformGuard("windows")]
         public static bool IsRunningOnXbox =>
 #if NETSTANDARD1_0 || NETSTANDARD1_1 || __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__
             false;

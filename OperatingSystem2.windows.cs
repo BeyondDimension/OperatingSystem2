@@ -212,7 +212,7 @@ namespace System
         /// <summary>
         /// 指示当前应用程序是否正在 UWP 上运行。
         /// </summary>
-        [SupportedOSPlatformGuard("windows")]
+        [SupportedOSPlatformGuard("windows10")]
         public static bool IsRunningAsUwp =>
 #if WINDOWS_UWP
             true;
@@ -231,7 +231,7 @@ namespace System
         /// <summary>
         /// 指示当前应用程序是否正在 Xbox 上运行。
         /// </summary>
-        [SupportedOSPlatformGuard("windows")]
+        [SupportedOSPlatformGuard("windows10")]
         public static bool IsRunningOnXbox =>
 #if NETSTANDARD1_0 || NETSTANDARD1_1 || __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__
             false;

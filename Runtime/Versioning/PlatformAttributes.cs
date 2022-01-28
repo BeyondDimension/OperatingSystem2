@@ -4,18 +4,16 @@
 
 namespace System.Runtime.Versioning
 {
-#if !NET5_0 || NET5_0_WINDOWS
+#if !(NET6_0 || NET6_0_ANDROID || NET6_0_IOS || NET6_0_MACCATALYST || NET6_0_MACOS10_14 || NET6_0_WINDOWS || NET7_0 || NET7_0_ANDROID || NET7_0_IOS || NET7_0_MACCATALYST || NET7_0_MACOS10_14 || NET7_0_WINDOWS)
     abstract class OSPlatformAttribute : Attribute
     {
         private protected OSPlatformAttribute(string platformName)
         {
             PlatformName = platformName;
         }
+
         public string PlatformName { get; }
     }
-#endif
-
-#if !(NET6_0 || NET6_0_ANDROID || NET6_0_IOS || NET6_0_MACCATALYST || NET6_0_MACOS10_14 || NET6_0_WINDOWS || NET7_0 || NET7_0_ANDROID || NET7_0_IOS || NET7_0_MACCATALYST || NET7_0_MACOS10_14 || NET7_0_WINDOWS)
 
     /// <summary>
     /// Annotates a custom guard field, property or method with a supported platform name and optional version.

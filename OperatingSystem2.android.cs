@@ -6,6 +6,7 @@ using Java.Lang;
 using Xamarin.Essentials;
 #endif
 using System.Runtime.Versioning;
+using System.Runtime.CompilerServices;
 
 namespace System
 {
@@ -15,7 +16,8 @@ namespace System
         /// 指示当前应用程序是否正在 Android 上运行。
         /// </summary>
         [SupportedOSPlatformGuard("android")]
-        public static bool IsAndroid =>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsAndroid() =>
 #if __ANDROID__
             true;
 #elif NET5_0 || NET6_0 || NET7_0
@@ -47,7 +49,8 @@ namespace System
         /// 指示当前应用程序是否正在 Windows Subsystem for Android™️ 上运行。
         /// </summary>
         [SupportedOSPlatformGuard("android")]
-        public static bool IsRunningOnWSA =>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsRunningOnWSA() =>
 #if __ANDROID__
             _IsRunningOnWSA.Value;
 #else
@@ -60,6 +63,7 @@ namespace System
         /// <param name="sdkInt"></param>
         /// <returns></returns>
         [SupportedOSPlatformGuard("android")]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsAndroidVersionAtLeast(int sdkInt)
         {
 #if __ANDROID__
@@ -76,6 +80,7 @@ namespace System
         /// <param name="sdkInt"></param>
         /// <returns></returns>
         [SupportedOSPlatformGuard("android")]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsAndroidVersionAtLeast(BuildVersionCodes sdkInt)
         {
             return Build.VERSION.SdkInt >= sdkInt;
@@ -91,6 +96,7 @@ namespace System
         /// <param name="revision"></param>
         /// <returns></returns>
         [SupportedOSPlatformGuard("android")]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsAndroidVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
         {
 #if NET5_0 || NET6_0 || NET7_0
@@ -98,7 +104,7 @@ namespace System
 #elif __HAVE_XAMARIN_ESSENTIALS__
             return
 #if !__ANDROID__
-                IsAndroid &&
+                IsAndroid() &&
 #endif
                 IsVersionAtLeast(DeviceInfo.Version, major, minor, build, revision);
 #else

@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using Xamarin.Essentials;
 #endif
 using System.Runtime.Versioning;
+using System.Runtime.CompilerServices;
 
 namespace System
 {
@@ -14,7 +15,8 @@ namespace System
         /// 指示当前应用程序是否正在 macOS 上运行。
         /// </summary>
         [SupportedOSPlatformGuard("macos")]
-        public static bool IsMacOS =>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsMacOS() =>
 #if NET5_0_WINDOWS || NET6_0_WINDOWS || NET7_0_WINDOWS || __ANDROID__ || __TVOS__ || __WATCHOS__ || WINDOWS_UWP
             false;
 #elif __MACOS__ || NET6_0_MACOS10_14
@@ -37,6 +39,7 @@ namespace System
         /// <param name="build"></param>
         /// <returns></returns>
         [SupportedOSPlatformGuard("macos")]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsMacOSVersionAtLeast(int major, int minor = 0, int build = 0)
         {
 #if NET5_0_WINDOWS || NET6_0_WINDOWS || NET7_0_WINDOWS || __ANDROID__ || __TVOS__ || __WATCHOS__ || WINDOWS_UWP
@@ -46,7 +49,7 @@ namespace System
 #else
             return
 #if !__MACOS__
-                IsMacOS &&
+                IsMacOS() &&
 #endif
                 IsVersionAtLeast(
 #if __HAVE_XAMARIN_ESSENTIALS__

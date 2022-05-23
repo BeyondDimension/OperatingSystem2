@@ -2,6 +2,7 @@
 using Xamarin.Essentials;
 #endif
 using System.Runtime.Versioning;
+using System.Runtime.CompilerServices;
 
 namespace System
 {
@@ -12,7 +13,8 @@ namespace System
         /// </summary>
         [SupportedOSPlatformGuard("ios")]
         [SupportedOSPlatformGuard("maccatalyst")]
-        public static bool IsIOS =>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsIOS() =>
 #if __MACOS__ || NET5_0_WINDOWS || NET6_0_WINDOWS || NET7_0_WINDOWS || __ANDROID__ || __TVOS__ || __WATCHOS__
             false;
 #elif __IOS__ && !NET6_0_MACCATALYST
@@ -34,6 +36,7 @@ namespace System
         /// <returns></returns>
         [SupportedOSPlatformGuard("ios")]
         [SupportedOSPlatformGuard("maccatalyst")]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsIOSVersionAtLeast(int major, int minor = 0, int build = 0)
         {
 #if __MACOS__ || NET5_0_WINDOWS || NET6_0_WINDOWS || NET7_0_WINDOWS || __ANDROID__ || __TVOS__ || __WATCHOS__
@@ -43,7 +46,7 @@ namespace System
 #elif __HAVE_XAMARIN_ESSENTIALS__
             return
 #if !__IOS__
-                IsIOS &&
+                IsIOS() &&
 #endif
                 IsVersionAtLeast(DeviceInfo.Version, major, minor, build);
 #else

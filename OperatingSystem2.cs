@@ -5,6 +5,7 @@ using Xamarin.Essentials;
 #if WINDOWS_UWP
 using Windows.System.Profile;
 #endif
+using System.Runtime.CompilerServices;
 
 namespace System
 {
@@ -14,6 +15,7 @@ namespace System
     public static partial class OperatingSystem2
     {
 #if __HAVE_XAMARIN_ESSENTIALS__ || (!NET5_0 && !NET6_0 && !NET7_0)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         static int GetInt32(int value) => value < 0 ? 0 : value;
 
         static bool IsVersionAtLeast(int major_left, int minor_left, int build_left, int revision_left, int major_right, int minor_right, int build_right, int revision_right)
@@ -48,83 +50,37 @@ namespace System
         /// <summary>
         /// 当前是否使用 Mono 运行时。
         /// </summary>
-        public static bool IsRunningOnMono { get; } =
-#if __XAMARIN_ANDROID_v1_0__ || XAMARIN_MAC || XAMARIN_IOS || XAMARIN_WATCHOS || XAMARIN_TVOS
-            true;
-#else
-        Type.GetType("Mono.Runtime") != null;
-#endif
-
-#if !WINDOWS_UWP && !(NETSTANDARD1_0 || NETSTANDARD1_1 || NET35 || NET40)
-        static byte isAvaloniaDesktop;
-#endif
-        static bool IsDesktop_()
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsRunningOnMono()
         {
-#if WINDOWS_UWP
-            return AnalyticsInfo.VersionInfo.DeviceFamily == "Windows.Desktop";
+#if __XAMARIN_ANDROID_v1_0__ || XAMARIN_MAC || XAMARIN_IOS || XAMARIN_WATCHOS || XAMARIN_TVOS
+            return true;
 #else
-#if __HAVE_XAMARIN_ESSENTIALS__
-            var idiom = DeviceInfo.Idiom;
-            if (idiom == DeviceIdiom.Desktop) return true;
-            if (idiom != DeviceIdiom.Unknown) return false;
-#endif
-            if (Application.UseWindowsForms || Application.UseWPF)
-            {
-                return true;
-            }
-#if !(NETSTANDARD1_0 || NETSTANDARD1_1 || NET35 || NET40)
-            else if (Application.UseAvalonia)
-            {
-                if (isAvaloniaDesktop == 0)
-                {
-                    try
-                    {
-                        var currentAvaloniaApplication = Application.Types.Avalonia!.GetProperty("Current", BindingFlags.Static | BindingFlags.Public)?.GetValue(null);
-                        if (currentAvaloniaApplication != null)
-                        {
-                            var applicationLifetime = Application.Types.Avalonia.GetProperty("ApplicationLifetime", BindingFlags.Instance | BindingFlags.Public)?.GetValue(currentAvaloniaApplication);
-                            if (applicationLifetime != null)
-                            {
-                                if (applicationLifetime.GetType().ToString().Contains("Desktop"))
-                                {
-                                    isAvaloniaDesktop = 1;
-                                }
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        isAvaloniaDesktop = 2;
-                    }
-                }
-                return isAvaloniaDesktop == 1;
-            }
-#endif
-            return false;
+            return IsRunningOnMono_;
 #endif
         }
 
-        /// <summary>
-        /// 指示当前应用程序是否正在 Desktop 上运行。
-        /// </summary>
-        public static bool IsDesktop =>
-            _IsDesktop.Value;
-        static readonly Lazy<bool> _IsDesktop = new(IsDesktop_);
+#if __XAMARIN_ANDROID_v1_0__ || XAMARIN_MAC || XAMARIN_IOS || XAMARIN_WATCHOS || XAMARIN_TVOS
+#else
+        static bool IsRunningOnMono_ { get; } = Type.GetType("Mono.Runtime") != null;
+#endif
 
         /// <summary>
         /// 指示当前应用程序是否正在仅支持应用商店的平台上运行。
         /// </summary>
-        public static bool IsOnlySupportedStore =>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsOnlySupportedStore() =>
 #if NETFRAMEWORK || __MACOS__ || NET5_0_WINDOWS || NET6_0_WINDOWS || NET7_0_WINDOWS || __ANDROID__
             false;
 #else
-            IsIOS || IsWatchOS || IsTvOS;
+            IsIOS() || IsWatchOS() || IsTvOS();
 #endif
 
         /// <summary>
         /// 获取当前系统版本号。
         /// </summary>
-        public static Version Version =>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Version Version() =>
 #if NETSTANDARD1_0
             throw new PlatformNotSupportedException();
 #elif NETSTANDARD1_1 || WINDOWS_UWP

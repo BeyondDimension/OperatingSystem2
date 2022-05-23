@@ -7,6 +7,7 @@ using Xamarin.Essentials;
 #if WINDOWS_UWP
 using Windows.System.Profile;
 #endif
+using System.Runtime.CompilerServices;
 
 namespace System
 {
@@ -16,7 +17,8 @@ namespace System
         /// 指示当前应用程序是否正在 Windows 上运行。
         /// </summary>
         [SupportedOSPlatformGuard("windows")]
-        public static bool IsWindows =>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsWindows() =>
 #if NETSTANDARD1_0 || __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__
             false;
 #elif NET5_0_WINDOWS || NET6_0_WINDOWS || NET7_0_WINDOWS || WINDOWS_UWP
@@ -38,6 +40,7 @@ namespace System
         /// <param name="revision"></param>
         /// <returns></returns>
         [SupportedOSPlatformGuard("windows")]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsWindowsVersionAtLeast(int major, int minor = 0, int build = 0, int revision = 0)
         {
 #if NETSTANDARD1_0 || __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__
@@ -47,9 +50,9 @@ namespace System
 #else
             return
 #if !(NET5_0_WINDOWS || NET6_0_WINDOWS || NET7_0_WINDOWS)
-                IsWindows &&
+                IsWindows() &&
 #endif
-                IsVersionAtLeast(Version, major, minor, build, revision);
+                IsVersionAtLeast(Version(), major, minor, build, revision);
 #endif
         }
 
@@ -113,23 +116,29 @@ namespace System
         /// 指示当前应用程序是否正在 Windows 7(NT 6.1) 上运行。
         /// </summary>
         [SupportedOSPlatformGuard("windows7.0")]
-        public static bool IsWindows7 =>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsWindows7() =>
 #if NETSTANDARD1_0 || __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__ || WINDOWS_UWP
             false;
 #else
 #if !(NET5_0_WINDOWS || NET6_0_WINDOWS || NET7_0_WINDOWS)
-            IsWindows &&
+            IsWindows() &&
 #endif
             _IsWindows7.Value;
         static readonly Lazy<bool> _IsWindows7 = new(IsWindows7_);
-        static bool IsWindows7_() => Version.Major == 6 && Version.Minor == 1;
+        static bool IsWindows7_()
+        {
+            var version_ = Version();
+            return version_.Major == 6 && version_.Minor == 1;
+        }
 #endif
 
         /// <summary>
         /// 指示当前应用程序是否正在 Windows Server 上运行。
         /// </summary>
         [SupportedOSPlatformGuard("windows")]
-        public static bool IsWindowsServer =>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsWindowsServer() =>
 #if NETSTANDARD1_0 || __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__
             false;
 #else
@@ -146,7 +155,8 @@ namespace System
         /// 指示当前应用程序是否正在 Windows 10 或更高版本上运行。
         /// </summary>
         [SupportedOSPlatformGuard("windows10.0")]
-        public static bool IsWindows10AtLeast =>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsWindows10AtLeast() =>
 #if NETSTANDARD1_0 || __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__
             false;
 #else
@@ -158,7 +168,8 @@ namespace System
         /// 指示当前应用程序是否正在 Windows 11 或更高版本上运行。
         /// </summary>
         [SupportedOSPlatformGuard("windows10.0.22000")]
-        public static bool IsWindows11AtLeast =>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsWindows11AtLeast() =>
 #if NETSTANDARD1_0 || __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__
             false;
 #else
@@ -185,8 +196,9 @@ namespace System
             }
 #endif
 #if !NETSTANDARD1_0
-            int versionMajor = Version.Major;
-            int versionMinor = Version.Minor;
+            var version_ = Version();
+            int versionMajor = version_.Major;
+            int versionMinor = version_.Minor;
             double version = versionMajor + (double)versionMinor / 10;
             if (version <= 6.1)
             {
@@ -213,7 +225,8 @@ namespace System
         /// 指示当前应用程序是否正在 UWP 上运行。
         /// </summary>
         [SupportedOSPlatformGuard("windows10")]
-        public static bool IsRunningAsUwp =>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsRunningAsUwp() =>
 #if WINDOWS_UWP
             true;
 #elif __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__
@@ -232,7 +245,8 @@ namespace System
         /// 指示当前应用程序是否正在 Xbox 上运行。
         /// </summary>
         [SupportedOSPlatformGuard("windows10")]
-        public static bool IsRunningOnXbox =>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsRunningOnXbox() =>
 #if NETSTANDARD1_0 || NETSTANDARD1_1 || __MACOS__ || __ANDROID__ || __IOS__ || __WATCHOS__ || __TVOS__
             false;
 #elif WINDOWS_UWP

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace System
 {
@@ -87,22 +88,28 @@ namespace System
             }
 
             /// <inheritdoc cref="TypeNames.Avalonia"/>
-            public static bool UseAvalonia => Types.Avalonia != null;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static bool UseAvalonia() => Types.Avalonia != null;
 
             /// <inheritdoc cref="TypeNames.XamarinForms"/>
-            public static bool UseXamarinForms => Types.XamarinForms != null;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static bool UseXamarinForms() => Types.XamarinForms != null;
 
             /// <inheritdoc cref="TypeNames.Maui"/>
-            public static bool UseMaui => Types.Maui != null;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static bool UseMaui() => Types.Maui != null;
 
             /// <inheritdoc cref="TypeNames.WindowsForms"/>
-            public static bool UseWindowsForms => Types.WindowsForms != null;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static bool UseWindowsForms() => Types.WindowsForms != null;
 
             /// <inheritdoc cref="TypeNames.WPF"/>
-            public static bool UseWPF => Types.WPF != null;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static bool UseWPF() => Types.WPF != null;
 
             /// <inheritdoc cref="TypeNames.Uno"/>
-            public static bool UseUno => Types.Uno != null;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
+            public static bool UseUno() => Types.Uno != null;
         }
     }
 }

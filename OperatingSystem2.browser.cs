@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 #endif
 using System.Runtime.Versioning;
+using System.Runtime.CompilerServices;
 
 namespace System
 {
@@ -11,7 +12,8 @@ namespace System
         /// 指示当前应用程序是否在浏览器中作为 WASM 运行。
         /// </summary>
         [SupportedOSPlatformGuard("browser")]
-        public static bool IsBrowser =>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsBrowser() =>
 #if NET5_0 || NET6_0 || NET7_0
             OperatingSystem.IsBrowser();
 #elif __HAVE_RUNTIME_INFORMATION__

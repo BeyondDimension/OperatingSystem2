@@ -1,14 +1,14 @@
-<Project Sdk="MSBuild.Sdk.Extras">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net6.0;net6.0-windows;net6.0-macos;net6.0-android;net6.0-ios;net6.0-maccatalyst;net5.0;net5.0-windows;netcoreapp3.0;netcoreapp3.1;netstandard1.0;netstandard1.1;netstandard2.0;MonoAndroid12.0;Xamarin.iOS10;Xamarin.TVOS10;Xamarin.WatchOS10;Xamarin.Mac20</TargetFrameworks>
-    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net35;net40;net45;net471;uap10.0.19041;</TargetFrameworks>
+    <TargetFrameworks>net7.0;net7.0-windows;net7.0-macos;net7.0-android;net7.0-ios;net7.0-maccatalyst;net6.0;net6.0-windows;net6.0-macos;net6.0-android;net6.0-ios;net6.0-maccatalyst;netcoreapp3.0;netcoreapp3.1;netstandard1.0;netstandard1.1;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks Condition=" '$(OS)' == 'Windows_NT' ">$(TargetFrameworks);net35;net40;net45;net471</TargetFrameworks>
     <AssemblyName>System.OperatingSystem2</AssemblyName>
     <RootNamespace>System</RootNamespace>
-    <LangVersion>9.0</LangVersion>
+    <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>OperatingSystem2.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>..\OperatingSystem2.snk</AssemblyOriginatorKeyFile>
     <Authors>https://github.com/AigioL</Authors>
     <Company>长沙次元超越科技有限公司</Company>
     <Product>OperatingSystem2</Product>
@@ -21,25 +21,28 @@
     <Description>表示有关操作系统的信息，如版本和平台标识符的通用库。</Description>
     <PackageId>OperatingSystem2</PackageId>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <Version>2.0.0</Version>
+    <Version>3.0.0</Version>
     <AndroidUseIntermediateDesignerFile>false</AndroidUseIntermediateDesignerFile>
     <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <IsTrimmable>true</IsTrimmable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <CheckEolTargetFramework>false</CheckEolTargetFramework>
   </PropertyGroup>
 
   <PropertyGroup Condition=" $(TargetFramework.StartsWith('netstandard')) OR $(TargetFramework.StartsWith('MonoAndroid')) OR $(TargetFramework.StartsWith('Xamarin')) ">
     <DefineConstants>__HAVE_XAMARIN_ESSENTIALS__;$(DefineConstants)</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" $(TargetFramework.StartsWith('net471')) OR $(TargetFramework.StartsWith('net472')) OR $(TargetFramework.StartsWith('net48')) OR $(TargetFramework.StartsWith('net5.0')) OR $(TargetFramework.StartsWith('net6.0')) OR ($(TargetFramework.StartsWith('netstandard')) AND '$(TargetFramework)' != 'netstandard1.0') OR $(TargetFramework.StartsWith('MonoAndroid')) OR $(TargetFramework.StartsWith('Xamarin'))">
+  <PropertyGroup Condition=" $(TargetFramework.StartsWith('net471')) OR $(TargetFramework.StartsWith('net472')) OR $(TargetFramework.StartsWith('net48')) OR $(TargetFramework.StartsWith('net5.0')) OR $(TargetFramework.StartsWith('net6.0')) OR $(TargetFramework.StartsWith('net7.0')) OR $(TargetFramework.StartsWith('net8.0')) OR ($(TargetFramework.StartsWith('netstandard')) AND '$(TargetFramework)' != 'netstandard1.0') OR $(TargetFramework.StartsWith('MonoAndroid')) OR $(TargetFramework.StartsWith('Xamarin'))">
     <DefineConstants>__HAVE_RUNTIME_INFORMATION__;$(DefineConstants)</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup Condition=" $(TargetFramework.StartsWith('netstandard')) OR $(TargetFramework.StartsWith('MonoAndroid')) OR $(TargetFramework.StartsWith('Xamarin')) ">
-    <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.4" />
   </ItemGroup>
 
   <ItemGroup>

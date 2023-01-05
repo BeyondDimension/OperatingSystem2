@@ -1,5 +1,3 @@
-using System.Runtime.CompilerServices;
-
 #if __HAVE_RUNTIME_INFORMATION__
 namespace System.Runtime.InteropServices
 {

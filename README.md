@@ -3,10 +3,7 @@
 ```
 
 OperatingSystem2.Version() // 获取当前系统版本号。
-
-OperatingSystem2.IsDesktop() // 指示当前应用程序是否正在 Desktop 上运行。
 OperatingSystem2.IsRunningOnMono() // 当前是否使用 Mono 运行时。
-OperatingSystem2.IsOnlySupportedStore() // 指示当前应用程序是否正在仅支持应用商店的平台上运行。
 OperatingSystem2.IsRunningAsUwp() // 指示当前应用程序是否正在 UWP 上运行。
 OperatingSystem2.IsRunningOnXbox() // 指示当前应用程序是否正在 Xbox 上运行。
 OperatingSystem2.IsRunningOnWSA() // 指示当前应用程序是否正在 Windows Subsystem for Android™️ 上运行。
@@ -65,13 +62,4 @@ bool IsWasm();
 bool IsS390x();
 bool IsLoongArch64();
 bool IsArmv6();
-
-// ----------------------------------------
-
-bool OperatingSystem2.Application.UseAvalonia()
-bool OperatingSystem2.Application.UseXamarinForms()
-bool OperatingSystem2.Application.UseMaui()
-bool OperatingSystem2.Application.UseWindowsForms()
-bool OperatingSystem2.Application.UseWPF()
-bool OperatingSystem2.Application.UseUno()
 ```

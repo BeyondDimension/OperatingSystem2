@@ -31,6 +31,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Install Android SDK
+        run: dotnet workload install android
+
+      - name: Install iOS SDK
+        run: dotnet workload install ios
+
+      - name: Install macOS SDK
+        run: dotnet workload install macos
+
+      - name: Install Mac Catalyst SDK
+        run: dotnet workload install maccatalyst
+
+      - name: Restore Workload
+        run: dotnet workload restore
+
       - name: Verify dotnet info
         run: dotnet --info
 
@@ -61,6 +76,21 @@ jobs:
         with:
           fetch-depth: 0
           submodules: recursive
+
+      - name: Install Android SDK
+        run: dotnet workload install android
+
+      - name: Install iOS SDK
+        run: dotnet workload install ios
+
+      - name: Install macOS SDK
+        run: dotnet workload install macos
+
+      - name: Install Mac Catalyst SDK
+        run: dotnet workload install maccatalyst
+
+      - name: Restore Workload
+        run: dotnet workload restore
 
       - name: Verify dotnet info
         run: dotnet --info

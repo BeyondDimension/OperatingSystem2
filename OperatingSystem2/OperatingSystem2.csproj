@@ -9,28 +9,39 @@
     <Nullable>enable</Nullable>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\OperatingSystem2.snk</AssemblyOriginatorKeyFile>
-    <Authors>https://github.com/AigioL</Authors>
-    <Company>长沙次元超越科技有限公司</Company>
     <Product>OperatingSystem2</Product>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/BeyondDimension/OperatingSystem2</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/BeyondDimension/OperatingSystem2.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>OperatingSystem IsAndroid IsIOS IsLinux IsMacOS IsTvOS IsWatchOS IsWindows</PackageTags>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>表示有关操作系统的信息，如版本和平台标识符的通用库。</Description>
     <PackageId>OperatingSystem2</PackageId>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <Version>3.0.0</Version>
     <AndroidUseIntermediateDesignerFile>false</AndroidUseIntermediateDesignerFile>
     <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <IsTrimmable>true</IsTrimmable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <CheckEolTargetFramework>false</CheckEolTargetFramework>
+    <PackageIconUrl>https://avatars.githubusercontent.com/u/79355691?s=200&amp;v=4</PackageIconUrl>
+    <Company>长沙次元超越科技有限公司</Company>
+    <Copyright>©️ $(Company). All rights reserved.</Copyright>
+    <Authors>$(Company)</Authors>
+    <FileVersion>$(Version)</FileVersion>
+    <AssemblyVersion>$(Version)</AssemblyVersion>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/BeyondDimension/OperatingSystem2</PackageProjectUrl>
+    <PackageReleaseNotes>$(PackageProjectUrl)/releases</PackageReleaseNotes>
+    <RepositoryUrl>$(PackageProjectUrl).git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryBranch>main</RepositoryBranch>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageOutputPath>$(MSBuildProjectDirectory)\..\..\pkg</PackageOutputPath>
+    <!-- Optional: Embed source files that are not tracked by the source control manager in the PDB -->
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <!-- Optional: Build symbol package (.snupkg) to distribute the PDB containing Source Link -->
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
   </PropertyGroup>
 
   <PropertyGroup Condition=" $(TargetFramework.StartsWith('netstandard')) OR $(TargetFramework.StartsWith('MonoAndroid')) OR $(TargetFramework.StartsWith('Xamarin')) ">
